@@ -37,10 +37,20 @@ public class Approximations {
         double a = (SXY*n - SX*SY) / (SXX*n - SX*SX);
         double b = (SXX*SY - SX*SXY) / (SXX*n - SX*SX);
 
-        System.out.println(a);
-        System.out.println(b);
+        double S = 0;
+        double 𝜹 = 0;
 
-        //todo Добавить нахождение меры отклонения и вывода результатов
+        for(int i = 0; i < arrX.length; i++){
+            double e = (a * arrX[i] + b) - arrY[i];
+            S += e * e;
+        }
+        𝜹 = Math.sqrt(S / arrX.length);
+
+        System.out.println("Мера отклонения S = " + S);
+        System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
+
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
     }
 
     public static void polynominalApproximation(double[] arrX, double[] arrY){
@@ -71,9 +81,25 @@ public class Approximations {
 
         MatrixSolver ms = new MatrixSolver();
 
-        NewGauss.solveMatrix(ms, a, b, n, m);
+        double[] result = NewGauss.solveMatrix(ms, a, b, n, m);
 
-        //todo Добавить нахождение меры отклонения и вывода результатов
+        double S = 0;
+        double 𝜹 = 0;
+
+        for(int i = 0; i < arrX.length; i++){
+            double e = ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]) - arrY[i];
+            S += e * e;
+        }
+        𝜹 = Math.sqrt(S / arrX.length);
+
+        System.out.println("\n\nМера отклонения S = " + S);
+        System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
+
+        System.out.println("a = " + result[2]);
+        System.out.println("b = " + result[1]);
+        System.out.println("c = " + result[0]);
+
+
     }
 
     public static void exponentialApproximation(double[] arrX, double[] arrY){
@@ -89,28 +115,80 @@ public class Approximations {
         double a = Math.exp(tempB);
         double b = tempA;
 
-        System.out.println(a);
-        System.out.println(b);
+        double S = 0;
+        double 𝜹 = 0;
 
-        //todo Добавить нахождение меры отклонения и вывода результатов
+        for(int i = 0; i < arrX.length; i++){
+            double e = (a * Math.pow(Math.E, b * arrX[i])) - arrY[i];
+            S += e * e;
+        }
+        𝜹 = Math.sqrt(S / arrX.length);
+
+        System.out.println("Мера отклонения S = " + S);
+        System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
+
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
 
     }
 
     public static void logarithmicApproximation(double[] arrX, double[] arrY){
-        double SX  = sumArr(x -> x, arrX);
-        double SXX = sumArr(x -> x*x, arrX);
+        double [] ARR_X = Arrays.stream(arrX).map(Math::log).toArray();
+        double SX  = sumArr(x -> x, ARR_X);
+        double SXX = sumArr(x -> x*x, ARR_X);
         double SY  = sumArr(y -> y, arrY);
-        double SXY = sumArrXY((x,y) -> x*y, arrX, arrY);
+        double SXY = sumArrXY((x,y) -> x*y, ARR_X, arrY);
         double n = arrX.length;
 
         double a = (SXY*n - SX*SY) / (SXX*n - SX*SX);
         double b = (SXX*SY - SX*SXY) / (SXX*n - SX*SX);
 
-        System.out.println(a);
-        System.out.println(b);
+        double S = 0;
+        double 𝜹 = 0;
 
-        //todo Добавить нахождение меры отклонения и вывода результатов
+        for(int i = 0; i < arrX.length; i++){
+            double e = (a * Math.log(arrX[i]) + b) - arrY[i];
+            S += e * e;
+        }
+        𝜹 = Math.sqrt(S / arrX.length);
+
+        System.out.println("Мера отклонения S = " + S);
+        System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
+
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+
     }
 
-    //todo ДоБАвить последний метод
+    public static void powerApproximation(double[] arrX, double[] arrY){
+        double [] logArrY = Arrays.stream(arrY).map(Math::log).toArray();
+        double [] logArrX = Arrays.stream(arrX).map(Math::log).toArray();
+        double SX  = sumArr(x -> x, logArrX);
+        double SXX = sumArr(x -> x*x, logArrX);
+        double SY  = sumArr(y -> y, logArrY);
+        double SXY = sumArrXY((x,y) -> x*y, logArrX, logArrY);
+        int n = arrX.length;
+
+        double tempA = (SXY*n - SX*SY) / (SXX*n - SX*SX);
+        double tempB = (SXX*SY - SX*SXY) / (SXX*n - SX*SX);
+
+        double a = Math.exp(tempB);
+        double b = tempA;
+
+        double S = 0;
+        double 𝜹 = 0;
+
+        for(int i = 0; i < arrX.length; i++){
+            double e = (a * Math.pow(arrX[i], b)) - arrY[i];
+            S += e * e;
+        }
+        𝜹 = Math.sqrt(S / arrX.length);
+
+        System.out.println("Мера отклонения S = " + S);
+        System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
+
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+
+    }
 }

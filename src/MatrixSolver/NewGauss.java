@@ -1,10 +1,7 @@
 package MatrixSolver;
 
-import MatrixSolver.Matrix;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -181,7 +178,7 @@ public class NewGauss {
 
     }
 
-    public static void solveMatrix(MatrixSolver ms, double[][] a, double[] b, int n, int m){
+    public static double[] solveMatrix(MatrixSolver ms, double[][] a, double[] b, int n, int m){
 
         /*------МЕТОД ГАУССА--------*/
         /*------Прямой ход:---------*/
@@ -198,7 +195,7 @@ public class NewGauss {
 
             if(a[i][i] == 0){
                 System.out.println("Определитель равен нулю! Видимо, у матрицы нет или бесконечное множество решений...");
-                return;
+                return b;
             }
 
             for(int k = i+1; k<n; k++){
@@ -219,7 +216,7 @@ public class NewGauss {
 
         if(determinant == 0){
             System.out.println("Определитель равен нулю! Видимо, у матрицы нет или бесконечное множество решений...");
-            return;
+            return b;
         }
 
         System.out.println("Ваша матрица в треугольном виде:");
@@ -248,25 +245,7 @@ public class NewGauss {
             System.out.printf("%7s", "X" + z + " = " + x[i] + " ");
 
         }
-    }
 
-    public static void main(String[] args){
-
-        gaussMethod();
-
-        //4 2 -1 1
-        //5 3 -2 2
-        //3 2 -3 0
-
-        //Матрица из лекции:
-        //10 -7 0 7
-        //-3 2 6 4
-        //5 -1 5 6
-
-        //Матрица с перестановкой строк:
-        //0 1 6 7
-        //1 4 8 3
-        //6 7 4 3
-
+        return x;
     }
 }
