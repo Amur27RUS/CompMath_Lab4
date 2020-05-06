@@ -41,6 +41,8 @@ public class Approximations {
         double 𝜹 = 0;
 
         for(int i = 0; i < arrX.length; i++){
+            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
+            System.out.println("ax + b = "+ (a * arrX[i] + b));
             double e = (a * arrX[i] + b) - arrY[i];
             S += e * e;
         }
@@ -87,6 +89,8 @@ public class Approximations {
         double 𝜹 = 0;
 
         for(int i = 0; i < arrX.length; i++){
+            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
+            System.out.println("ax^2 + bx + c = "+ ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]));
             double e = ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]) - arrY[i];
             S += e * e;
         }
@@ -119,6 +123,8 @@ public class Approximations {
         double 𝜹 = 0;
 
         for(int i = 0; i < arrX.length; i++){
+            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
+            System.out.println("ae^bx = "+ (a * Math.pow(Math.E, b * arrX[i])));
             double e = (a * Math.pow(Math.E, b * arrX[i])) - arrY[i];
             S += e * e;
         }
@@ -147,6 +153,8 @@ public class Approximations {
         double 𝜹 = 0;
 
         for(int i = 0; i < arrX.length; i++){
+            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
+            System.out.println("a*lnx + b = "+ (a * Math.log(arrX[i]) + b));
             double e = (a * Math.log(arrX[i]) + b) - arrY[i];
             S += e * e;
         }
@@ -179,6 +187,8 @@ public class Approximations {
         double 𝜹 = 0;
 
         for(int i = 0; i < arrX.length; i++){
+            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
+            System.out.println("a*x^b = "+ (a * Math.pow(arrX[i], b)));
             double e = (a * Math.pow(arrX[i], b)) - arrY[i];
             S += e * e;
         }

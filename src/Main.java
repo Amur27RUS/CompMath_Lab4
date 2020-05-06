@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args){
-        double[] arrX = {1.1, 2.3, 3.7, 4.5, 5.4, 6.8, 7.5};
-        double[] arrY = {2.73, 5.12, 7.74, 8.91, 10.59, 12.75, 13.43};
+        double[] arrX = {1.1, 1.3, 1.5, 1.7, 1.9, 2.1, 2.3, 2.5, 2.7, 2.9, 3.1, 3.3, 3.5, 3.7, 3.9};
+        double[] arrY = {2.22, 2.57, 2.89, 3.76, 3.98, 4.34, 4.79, 5.67, 6.21, 6.88, 7.49, 8.03, 8.85, 9.67, 10.23};
 
         Approximations.powerApproximation(arrX, arrY);
     }
