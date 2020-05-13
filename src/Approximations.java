@@ -26,7 +26,7 @@ public class Approximations {
         return result;
     }
 
-    public static void linearApproximation(double[] arrX, double[] arrY){
+    public static double[] linearApproximation(double[] arrX, double[] arrY){
         double SX = sumArr(x -> x, arrX);
         double SXX = sumArr(x -> Math.pow(x, 2), arrX);
         double SY = sumArr(y -> y, arrY);
@@ -39,10 +39,12 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
+        double[] funcValues = new double[arrX.length];
+        System.out.printf("%s %12s %20s %n", "X", "Y", "ax + b");
 
         for(int i = 0; i < arrX.length; i++){
-            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
-            System.out.println("ax + b = "+ (a * arrX[i] + b));
+            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * arrX[i] + b));
+            funcValues[i] = (a * arrX[i] + b);
             double e = (a * arrX[i] + b) - arrY[i];
             S += e * e;
         }
@@ -53,9 +55,14 @@ public class Approximations {
 
         System.out.println("a = " + a);
         System.out.println("b = " + b);
+
+        GraphController gc = new GraphController();
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+
+        return funcValues;
     }
 
-    public static void polynominalApproximation(double[] arrX, double[] arrY){
+    public static double[] polynominalApproximation(double[] arrX, double[] arrY){
         double SX    = sumArr(x -> x, arrX);
         double SXX   = sumArr(x -> Math.pow(x, 2), arrX);
         double SXXX  = sumArr(x -> Math.pow(x, 3), arrX);
@@ -87,10 +94,12 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
+        double[] funcValues = new double[arrX.length];
 
+        System.out.printf("%n %s %12s %20s %n", "X", "Y", "ax^2 + bx + c");
         for(int i = 0; i < arrX.length; i++){
-            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
-            System.out.println("ax^2 + bx + c = "+ ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]));
+            funcValues[i] = ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]);
+            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]));
             double e = ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]) - arrY[i];
             S += e * e;
         }
@@ -103,10 +112,14 @@ public class Approximations {
         System.out.println("b = " + result[1]);
         System.out.println("c = " + result[0]);
 
+        GraphController gc = new GraphController();
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+
+        return funcValues;
 
     }
 
-    public static void exponentialApproximation(double[] arrX, double[] arrY){
+    public static double[] exponentialApproximation(double[] arrX, double[] arrY){
         double [] ARR_Y = Arrays.stream(arrY).map(Math::log).toArray();
         double SX  = sumArr(x -> x, arrX);
         double SXX = sumArr(x -> x*x, arrX);
@@ -121,10 +134,12 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
+        double[] funcValues = new double[arrX.length];
 
+        System.out.printf("%s %12s %20s %n", "X", "Y", "ae^bx");
         for(int i = 0; i < arrX.length; i++){
-            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
-            System.out.println("ae^bx = "+ (a * Math.pow(Math.E, b * arrX[i])));
+            funcValues[i] = (a * Math.pow(Math.E, b * arrX[i]));
+            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * Math.pow(Math.E, b * arrX[i])));
             double e = (a * Math.pow(Math.E, b * arrX[i])) - arrY[i];
             S += e * e;
         }
@@ -136,9 +151,13 @@ public class Approximations {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
 
+        GraphController gc = new GraphController();
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+
+        return funcValues;
     }
 
-    public static void logarithmicApproximation(double[] arrX, double[] arrY){
+    public static double[] logarithmicApproximation(double[] arrX, double[] arrY){
         double [] ARR_X = Arrays.stream(arrX).map(Math::log).toArray();
         double SX  = sumArr(x -> x, ARR_X);
         double SXX = sumArr(x -> x*x, ARR_X);
@@ -151,10 +170,12 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
+        double[] funcValues = new double[arrX.length];
 
+        System.out.printf("%s %12s %20s %n", "X", "Y", "a*lnx + b");
         for(int i = 0; i < arrX.length; i++){
-            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
-            System.out.println("a*lnx + b = "+ (a * Math.log(arrX[i]) + b));
+            funcValues[i] = (a * Math.log(arrX[i]) + b);
+            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * Math.log(arrX[i]) + b));
             double e = (a * Math.log(arrX[i]) + b) - arrY[i];
             S += e * e;
         }
@@ -166,9 +187,13 @@ public class Approximations {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
 
+        GraphController gc = new GraphController();
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+
+        return funcValues;
     }
 
-    public static void powerApproximation(double[] arrX, double[] arrY){
+    public static double[] powerApproximation(double[] arrX, double[] arrY){
         double [] logArrY = Arrays.stream(arrY).map(Math::log).toArray();
         double [] logArrX = Arrays.stream(arrX).map(Math::log).toArray();
         double SX  = sumArr(x -> x, logArrX);
@@ -185,10 +210,12 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
+        double[] funcValues = new double[arrX.length];
 
+        System.out.printf("%s %12s %20s %n", "X", "Y", "a*x^b");
         for(int i = 0; i < arrX.length; i++){
-            System.out.println("X = "+ arrX[i] + " Y = "+ arrY[i]);
-            System.out.println("a*x^b = "+ (a * Math.pow(arrX[i], b)));
+            funcValues[i] = (a * Math.pow(arrX[i], b));
+            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * Math.pow(arrX[i], b)));
             double e = (a * Math.pow(arrX[i], b)) - arrY[i];
             S += e * e;
         }
@@ -200,5 +227,22 @@ public class Approximations {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
 
+        GraphController gc = new GraphController();
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+
+        return funcValues;
+    }
+
+    public static void allApproxFunctions(double[] arrX, double[] arrY){
+        GraphController gc = new GraphController();
+        double[] linValues = linearApproximation(arrX, arrY);
+        double[] polValues = polynominalApproximation(arrX, arrY);
+        double[] expoValues = exponentialApproximation(arrX, arrY);
+        double[] logValues = logarithmicApproximation(arrX, arrY);
+        double[] powValues = powerApproximation(arrX, arrY);
+
+        gc.buildGraphForAllMethods(arrX, arrY, linValues, polValues, expoValues, logValues, powValues);
+
+        //todo Добавить вывод всех квадратичных отклонений и сравнение их.
     }
 }
