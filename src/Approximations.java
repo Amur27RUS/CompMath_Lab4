@@ -39,7 +39,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length];
+        double[] funcValues = new double[arrX.length+1];
         System.out.printf("%s %12s %20s %n", "X", "Y", "ax + b");
 
         for(int i = 0; i < arrX.length; i++){
@@ -52,6 +52,7 @@ public class Approximations {
 
         System.out.println("Мера отклонения S = " + S);
         System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
+        funcValues[arrX.length] = 𝜹;
 
         System.out.println("a = " + a);
         System.out.println("b = " + b);
@@ -94,7 +95,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length];
+        double[] funcValues = new double[arrX.length + 1];
 
         System.out.printf("%n %s %12s %20s %n", "X", "Y", "ax^2 + bx + c");
         for(int i = 0; i < arrX.length; i++){
@@ -111,6 +112,8 @@ public class Approximations {
         System.out.println("a = " + result[2]);
         System.out.println("b = " + result[1]);
         System.out.println("c = " + result[0]);
+
+        funcValues[arrX.length] = 𝜹;
 
         GraphController gc = new GraphController();
         gc.buildGraphForOneMethod(arrX, arrY, funcValues);
@@ -134,7 +137,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length];
+        double[] funcValues = new double[arrX.length+1];
 
         System.out.printf("%s %12s %20s %n", "X", "Y", "ae^bx");
         for(int i = 0; i < arrX.length; i++){
@@ -150,6 +153,8 @@ public class Approximations {
 
         System.out.println("a = " + a);
         System.out.println("b = " + b);
+
+        funcValues[arrX.length] = 𝜹;
 
         GraphController gc = new GraphController();
         gc.buildGraphForOneMethod(arrX, arrY, funcValues);
@@ -170,7 +175,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length];
+        double[] funcValues = new double[arrX.length + 1];
 
         System.out.printf("%s %12s %20s %n", "X", "Y", "a*lnx + b");
         for(int i = 0; i < arrX.length; i++){
@@ -186,6 +191,8 @@ public class Approximations {
 
         System.out.println("a = " + a);
         System.out.println("b = " + b);
+
+        funcValues[arrX.length] = 𝜹;
 
         GraphController gc = new GraphController();
         gc.buildGraphForOneMethod(arrX, arrY, funcValues);
@@ -210,7 +217,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length];
+        double[] funcValues = new double[arrX.length+1];
 
         System.out.printf("%s %12s %20s %n", "X", "Y", "a*x^b");
         for(int i = 0; i < arrX.length; i++){
@@ -227,6 +234,8 @@ public class Approximations {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
 
+        funcValues[arrX.length] = 𝜹;
+
         GraphController gc = new GraphController();
         gc.buildGraphForOneMethod(arrX, arrY, funcValues);
 
@@ -241,8 +250,34 @@ public class Approximations {
         double[] logValues = logarithmicApproximation(arrX, arrY);
         double[] powValues = powerApproximation(arrX, arrY);
 
-        gc.buildGraphForAllMethods(arrX, arrY, linValues, polValues, expoValues, logValues, powValues);
+        System.out.println("\nСреднеквадратические отклонения функций:");
+        System.out.println("Линейное \uD835\uDF39 = " + linValues[arrX.length]);
+        System.out.println("Полиноминальное \uD835\uDF39 = " + polValues[arrX.length]);
+        System.out.println("Экспоненциальное \uD835\uDF39 = " + expoValues[arrX.length]);
+        System.out.println("Логарифмическое \uD835\uDF39 = " + logValues[arrX.length]);
+        System.out.println("Степенное \uD835\uDF39 = " + powValues[arrX.length]);
 
-        //todo Добавить вывод всех квадратичных отклонений и сравнение их.
+        System.out.println("\nЛучшая аппроксимирующая функция:");
+        double min = linValues[arrX.length];
+        String title = "Линейная аппроксимация";
+        if(polValues[arrX.length]< min){
+            min = polValues[arrX.length];
+            title = "Полиноминальная аппроксимация";
+        }
+        if(expoValues[arrX.length]< min){
+            min = expoValues[arrX.length];
+            title = "Экспоненциальная аппроксимация";
+        }
+        if(logValues[arrX.length]< min){
+            min = logValues[arrX.length];
+            title = "Логарифмическая аппроксимация";
+        }
+        if(powValues[arrX.length]< min){
+            min = powValues[arrX.length];
+            title = "Степенная аппроксимация";
+        }
+        System.out.println(title+" имеет наименьшее \uD835\uDF39. \uD835\uDF39 = "+min);
+
+        gc.buildGraphForAllMethods(arrX, arrY, linValues, polValues, expoValues, logValues, powValues);
     }
 }
