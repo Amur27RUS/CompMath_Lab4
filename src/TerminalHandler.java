@@ -18,7 +18,7 @@ public class TerminalHandler {
         System.out.println("3. Экспоненциальная аппроксимация");
         System.out.println("4. Логарифмическая аппроксимация");
         System.out.println("5. Степенная аппроксимация");
-        System.out.println("6. Сравнить все методы");
+        System.out.println("6. Сравнить все функции");
 
         //Выбор метода аппроксимации
         switch (scn.nextInt()){
