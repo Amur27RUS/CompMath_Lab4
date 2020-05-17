@@ -1,6 +1,5 @@
 import MatrixSolver.MatrixSolver;
 import MatrixSolver.NewGauss;
-import MatrixSolver.Matrix;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
@@ -26,6 +25,32 @@ public class Approximations {
         return result;
     }
 
+    public static double rFinder(double[] arrX, double[] arrY){
+        //Подсчёт коэффициента кореляции(r)
+        double averX = 0;
+        double averY = 0;
+        double numerator = 0; //числитель
+        double denominator = 0; //знаменатель
+        double denX = 0;
+        double denY = 0;
+
+        for(int i = 0; i < arrX.length; i++){
+            averX += arrX[i];
+            averY += arrY[i];
+        }
+        averX = averX / arrX.length;
+        averY = averY / arrY.length;
+
+        for(int i = 0; i < arrX.length; i++){
+            numerator += (arrX[i]-averX)*(arrY[i]-averY);
+            denX += Math.pow((arrX[i]-averX), 2);
+            denY += Math.pow((arrY[i]-averY), 2);
+        }
+        denominator = Math.sqrt(denX*denY);
+
+        return numerator / denominator;
+    }
+
     public static double[] linearApproximation(double[] arrX, double[] arrY){
         double SX = sumArr(x -> x, arrX);
         double SXX = sumArr(x -> Math.pow(x, 2), arrX);
@@ -40,12 +65,12 @@ public class Approximations {
         double S = 0;
         double 𝜹 = 0;
         double[] funcValues = new double[arrX.length+1];
-        System.out.printf("%s %12s %20s %n", "X", "Y", "ax + b");
+        System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "ax + b", "e", "p");
 
         for(int i = 0; i < arrX.length; i++){
-            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * arrX[i] + b));
             funcValues[i] = (a * arrX[i] + b);
             double e = (a * arrX[i] + b) - arrY[i];
+            System.out.printf("%f %12f %12f %12f %12f %n", arrX[i], arrY[i], (a * arrX[i] + b), e, e/arrY[i]);
             S += e * e;
         }
         𝜹 = Math.sqrt(S / arrX.length);
@@ -57,8 +82,11 @@ public class Approximations {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
 
+        double r = rFinder(arrX, arrY);
+        System.out.println("Коэффициент корреляции r = "+ r);
+
         GraphController gc = new GraphController();
-        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Линейная аппроксимация");
 
         return funcValues;
     }
@@ -97,11 +125,12 @@ public class Approximations {
         double 𝜹 = 0;
         double[] funcValues = new double[arrX.length + 1];
 
-        System.out.printf("%n %s %12s %20s %n", "X", "Y", "ax^2 + bx + c");
+        System.out.printf("%n %s %12s %20s %6s %9s %n", "X", "Y", "ax^2 + bx + c", "e", "p");
         for(int i = 0; i < arrX.length; i++){
             funcValues[i] = ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]);
-            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]));
             double e = ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]) - arrY[i];
+            System.out.printf("%f %12f %12f %12f %12f %n", arrX[i], arrY[i], ((result[2] * arrX[i]* arrX[i]) + (result[1] * arrX[i]) + result[0]), e, e/arrY[i]);
+
             S += e * e;
         }
         𝜹 = Math.sqrt(S / arrX.length);
@@ -115,8 +144,11 @@ public class Approximations {
 
         funcValues[arrX.length] = 𝜹;
 
+        double r = rFinder(arrX, arrY);
+        System.out.println("Коэффициент корреляции r = "+ r);
+
         GraphController gc = new GraphController();
-        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Полиноминальная аппроксимация");
 
         return funcValues;
 
@@ -139,11 +171,11 @@ public class Approximations {
         double 𝜹 = 0;
         double[] funcValues = new double[arrX.length+1];
 
-        System.out.printf("%s %12s %20s %n", "X", "Y", "ae^bx");
+        System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "ae^bx", "e", "p");
         for(int i = 0; i < arrX.length; i++){
             funcValues[i] = (a * Math.pow(Math.E, b * arrX[i]));
-            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * Math.pow(Math.E, b * arrX[i])));
             double e = (a * Math.pow(Math.E, b * arrX[i])) - arrY[i];
+            System.out.printf("%f %12f %12f %12f %12f %n", arrX[i], arrY[i], (a * Math.pow(Math.E, b * arrX[i])), e, e/arrY[i]);
             S += e * e;
         }
         𝜹 = Math.sqrt(S / arrX.length);
@@ -156,8 +188,11 @@ public class Approximations {
 
         funcValues[arrX.length] = 𝜹;
 
+        double r = rFinder(arrX, arrY);
+        System.out.println("Коэффициент корреляции r = "+ r);
+
         GraphController gc = new GraphController();
-        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Экспоненциальная аппроксимация");
 
         return funcValues;
     }
@@ -177,11 +212,11 @@ public class Approximations {
         double 𝜹 = 0;
         double[] funcValues = new double[arrX.length + 1];
 
-        System.out.printf("%s %12s %20s %n", "X", "Y", "a*lnx + b");
+        System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "a*lnx + b", "e", "p");
         for(int i = 0; i < arrX.length; i++){
             funcValues[i] = (a * Math.log(arrX[i]) + b);
-            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * Math.log(arrX[i]) + b));
             double e = (a * Math.log(arrX[i]) + b) - arrY[i];
+            System.out.printf("%f %12f %12f %12f %12f %n", arrX[i], arrY[i], (a * Math.log(arrX[i]) + b), e, e/arrY[i]);
             S += e * e;
         }
         𝜹 = Math.sqrt(S / arrX.length);
@@ -194,8 +229,11 @@ public class Approximations {
 
         funcValues[arrX.length] = 𝜹;
 
+        double r = rFinder(arrX, arrY);
+        System.out.println("Коэффициент корреляции r = "+ r);
+
         GraphController gc = new GraphController();
-        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Логарифмическая аппроксимация");
 
         return funcValues;
     }
@@ -219,11 +257,12 @@ public class Approximations {
         double 𝜹 = 0;
         double[] funcValues = new double[arrX.length+1];
 
-        System.out.printf("%s %12s %20s %n", "X", "Y", "a*x^b");
+        System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "a*x^b", "e", "p");
         for(int i = 0; i < arrX.length; i++){
             funcValues[i] = (a * Math.pow(arrX[i], b));
-            System.out.printf("%f %12f %12f %n", arrX[i], arrY[i], (a * Math.pow(arrX[i], b)));
             double e = (a * Math.pow(arrX[i], b)) - arrY[i];
+            System.out.printf("%f %12f %12f %12f %12f %n", arrX[i], arrY[i], (a * Math.pow(arrX[i], b)), e, e/arrY[i]);
+
             S += e * e;
         }
         𝜹 = Math.sqrt(S / arrX.length);
@@ -236,8 +275,11 @@ public class Approximations {
 
         funcValues[arrX.length] = 𝜹;
 
+        double r = rFinder(arrX, arrY);
+        System.out.println("Коэффициент корреляции r = "+ r);
+
         GraphController gc = new GraphController();
-        gc.buildGraphForOneMethod(arrX, arrY, funcValues);
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Степенная аппроксимация");
 
         return funcValues;
     }

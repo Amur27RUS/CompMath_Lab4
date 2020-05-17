@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 public class GraphController {
 
-    public void buildGraphForOneMethod(double[] arrX, double[] arrY, double[] funcValues){
+    public void buildGraphForOneMethod(double[] arrX, double[] arrY, double[] funcValues, String title){
 
         /*------Построение графика-------*/
         XYSeries series = new XYSeries("Аппроксимирующая функция");
@@ -29,7 +29,7 @@ public class GraphController {
         xyDataset.addSeries(series1);
 
         JFreeChart chart = ChartFactory
-                .createXYLineChart("Аппроксимирующая функция", "x", "y",
+                .createXYLineChart(title, "x", "y",
                         xyDataset,
                         PlotOrientation.VERTICAL,
                         true, true, true);
