@@ -148,7 +148,7 @@ public class Approximations {
         System.out.println("Коэффициент корреляции r = "+ r);
 
         GraphController gc = new GraphController();
-        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Полиноминальная аппроксимация");
+        gc.buildGraphForOneMethod(arrX, arrY, funcValues, "Квадратичная аппроксимация");
 
         return funcValues;
 
