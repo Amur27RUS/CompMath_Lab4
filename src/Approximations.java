@@ -64,7 +64,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length+1];
+        double[] funcValues = new double[arrX.length+3];
         System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "ax + b", "e", "p");
 
         for(int i = 0; i < arrX.length; i++){
@@ -78,6 +78,8 @@ public class Approximations {
         System.out.println("Мера отклонения S = " + S);
         System.out.println("Среднеквадратичное отклонение \uD835\uDF39 = " + 𝜹);
         funcValues[arrX.length] = 𝜹;
+        funcValues[arrX.length +1]= a;
+        funcValues[arrX.length +2]= b;
 
         System.out.println("a = " + a);
         System.out.println("b = " + b);
@@ -123,7 +125,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length + 1];
+        double[] funcValues = new double[arrX.length + 4];
 
         System.out.printf("%n %s %12s %20s %6s %9s %n", "X", "Y", "ax^2 + bx + c", "e", "p");
         for(int i = 0; i < arrX.length; i++){
@@ -143,6 +145,10 @@ public class Approximations {
         System.out.println("c = " + result[0]);
 
         funcValues[arrX.length] = 𝜹;
+        funcValues[arrX.length +1]= result[2];
+        funcValues[arrX.length +2]= result[1];
+        funcValues[arrX.length +3]= result[0];
+
 
         double r = rFinder(arrX, arrY);
         System.out.println("Коэффициент корреляции r = "+ r);
@@ -169,7 +175,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length+1];
+        double[] funcValues = new double[arrX.length+3];
 
         System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "ae^bx", "e", "p");
         for(int i = 0; i < arrX.length; i++){
@@ -187,6 +193,8 @@ public class Approximations {
         System.out.println("b = " + b);
 
         funcValues[arrX.length] = 𝜹;
+        funcValues[arrX.length +1]= a;
+        funcValues[arrX.length +2]= b;
 
         double r = rFinder(arrX, arrY);
         System.out.println("Коэффициент корреляции r = "+ r);
@@ -210,7 +218,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length + 1];
+        double[] funcValues = new double[arrX.length + 3];
 
         System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "a*lnx + b", "e", "p");
         for(int i = 0; i < arrX.length; i++){
@@ -228,6 +236,8 @@ public class Approximations {
         System.out.println("b = " + b);
 
         funcValues[arrX.length] = 𝜹;
+        funcValues[arrX.length +1]= a;
+        funcValues[arrX.length +2]= b;
 
         double r = rFinder(arrX, arrY);
         System.out.println("Коэффициент корреляции r = "+ r);
@@ -255,7 +265,7 @@ public class Approximations {
 
         double S = 0;
         double 𝜹 = 0;
-        double[] funcValues = new double[arrX.length+1];
+        double[] funcValues = new double[arrX.length+3];
 
         System.out.printf("%s %12s %20s %6s %9s %n", "X", "Y", "a*x^b", "e", "p");
         for(int i = 0; i < arrX.length; i++){
@@ -274,6 +284,8 @@ public class Approximations {
         System.out.println("b = " + b);
 
         funcValues[arrX.length] = 𝜹;
+        funcValues[arrX.length +1]= a;
+        funcValues[arrX.length +2]= b;
 
         double r = rFinder(arrX, arrY);
         System.out.println("Коэффициент корреляции r = "+ r);
@@ -292,31 +304,41 @@ public class Approximations {
         double[] logValues = logarithmicApproximation(arrX, arrY);
         double[] powValues = powerApproximation(arrX, arrY);
 
+        System.out.printf("%n %s %15s %20s %17s %17s %16s %10s","X", "Y", "Линейная", "Квадратичная", "Экспоненциальная",
+                "Логарифмическая", "Степенная");
+        for(int i = 0; i < arrX.length; i++){
+            System.out.printf("%n %f %15f %13f %13f %13f %17f %16f", arrX[i], arrY[i], linValues[i], polValues[i], expoValues[i], logValues[i], powValues[i]);
+        }
+        System.out.println("");
+        System.out.printf("%n  %s %33f %13f %13f %17f %16f", "a = ", linValues[arrX.length+1], polValues[arrX.length+1], expoValues[arrX.length+1], logValues[arrX.length+1], powValues[arrX.length+1]);
+        System.out.printf("%n  %s %33f %13f %13f %17f %16f", "b = ", linValues[arrX.length+2], polValues[arrX.length+2], expoValues[arrX.length+2], logValues[arrX.length+2], powValues[arrX.length+2]);
+        System.out.printf("%n  %s %33s %13f %13s %17s %16s", "c = ", "-", polValues[arrX.length+3], "-", "-", "-");
+
         System.out.println("\nСреднеквадратические отклонения функций:");
         System.out.println("Линейное \uD835\uDF39 = " + linValues[arrX.length]);
-        System.out.println("Полиноминальное \uD835\uDF39 = " + polValues[arrX.length]);
+        System.out.println("Квадратичное \uD835\uDF39 = " + polValues[arrX.length]);
         System.out.println("Экспоненциальное \uD835\uDF39 = " + expoValues[arrX.length]);
         System.out.println("Логарифмическое \uD835\uDF39 = " + logValues[arrX.length]);
         System.out.println("Степенное \uD835\uDF39 = " + powValues[arrX.length]);
 
         System.out.println("\nЛучшая аппроксимирующая функция:");
         double min = linValues[arrX.length];
-        String title = "Линейная аппроксимация";
+        String title = "Линейная функция";
         if(polValues[arrX.length]< min){
             min = polValues[arrX.length];
-            title = "Полиноминальная аппроксимация";
+            title = "Полиноминальная функция";
         }
         if(expoValues[arrX.length]< min){
             min = expoValues[arrX.length];
-            title = "Экспоненциальная аппроксимация";
+            title = "Экспоненциальная функция";
         }
         if(logValues[arrX.length]< min){
             min = logValues[arrX.length];
-            title = "Логарифмическая аппроксимация";
+            title = "Логарифмическая функция";
         }
         if(powValues[arrX.length]< min){
             min = powValues[arrX.length];
-            title = "Степенная аппроксимация";
+            title = "Степенная функция";
         }
         System.out.println(title+" имеет наименьшее \uD835\uDF39. \uD835\uDF39 = "+min);
 
